@@ -15,12 +15,10 @@ class ProjectsController < ApplicationController
   # GET /projects/new
   def new
     @project = Project.new
-    @project.tasks.build
   end
 
   # GET /projects/1/edit
   def edit
-    @project.tasks.build
   end
 
   # POST /projects
@@ -63,6 +61,20 @@ class ProjectsController < ApplicationController
     end
   end
 
+  # to show details of Project on ajax call
+  def show_details
+    # debugger
+    project = Project.find(params[:id])
+    @tasks = project.tasks
+    # render json: {tasks: tasks}
+    respond_to do |format|
+      format.html do
+          render partial: "task_list", object: @tasks,  locals: { project: project.id}
+      end
+    end
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_project
@@ -71,6 +83,7 @@ class ProjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def project_params
+      # params.require(:project).permit(:name, :description)
       params.require(:project).permit(:name, :description, tasks_attributes: [:id, :description, :done, :_destroy])
     end
 end

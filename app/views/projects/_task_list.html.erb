@@ -1,0 +1,33 @@
+<hr>
+<% if @tasks.present? %> 
+	<h4> tasks <h4>
+	<table id="tasks">
+	  <thead>
+	    <tr>
+	    	<th>Sr No</th>
+	      <th>done</th>
+	      <th>Description</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    <% @tasks.each_with_index do |task, index| %>
+	      <tr>
+	      	<td><%= index+1 %> </td>
+	        <td><%= task.done %></td>
+	        <td><%= task.description %></td>
+	        </tr>
+	    <% end %>
+	  </tbody>
+	</table>
+<% else %>
+  <div> <h1> No task available </h1> </div>
+<% end %>
+<hr><br>
+<a onclick="minimize(<%=project%>)"> <h1><strong> - </strong></h1> </a>
+
+<script type="text/javascript">
+function minimize (project_id) {
+	console.log("file: task_list,, ,, project_id: "+project_id);
+	$("#task_list"+project_id).empty();
+}
+</script>

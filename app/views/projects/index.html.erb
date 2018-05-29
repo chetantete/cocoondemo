@@ -1,0 +1,63 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Projects</h1>
+
+<table id="project_table">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Name</th>
+      <th>Description</th>
+      <th></th><th></th><th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @projects.each do |project| %>
+      <tr>
+        <td> <a onclick="show_details(<%= project.id%>)"><h1><strong> + </strong></h1>   </a></td>
+        <td><%= project.name %></td>
+        <td><%= project.description %></td>
+        <td><%= link_to 'Show', project %></td>
+        <td><%= link_to 'Edit', edit_project_path(project) %></td>
+        <td><%= link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+      <tr id="task_list<%=project.id%>" class= "tasks"></tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<!-- <button type="button" class="btn btn-warning">Warning</button> -->
+
+<%= link_to 'New Project', new_project_path %>
+<script type="text/javascript">
+// $('#project_table').DataTable();
+
+api_response = [];
+idg = 0;
+ function show_details(id){
+  console.log("file: index,, ,, project_id: "+id);
+    idg = id;
+    $.ajax({
+      url: '<%= show_details_path %>',
+      data: {id: id},
+      type: 'GET',
+      error: function() {
+        alert("error");
+      },
+      success: function(data) {
+        // console.log(data);
+        api_response = data ;
+        $("#task_list"+idg).html(data);
+
+
+        // var $title = $('<h1>').text(data.talks[0].talk_title);
+        // var $description = $('<p>').text(data.talks[0].talk_description);
+        // $('#info')
+        //  .append($title)
+        //  .append($description);
+        },
+    });
+ }
+
+</script>
